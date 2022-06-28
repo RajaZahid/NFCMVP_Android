@@ -2,16 +2,19 @@ package com.example.nfcprototype_test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NfcAdapter.CreateNdefMessageCallback {
 
+    Button btn_receiver;
     EditText editText;
 
     @Override
@@ -19,7 +22,11 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Create
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = (EditText) findViewById(R.id.edittext);
-
+        btn_receiver = findViewById(R.id.buttonReceiver);
+        btn_receiver.setOnClickListener(v->{
+            Intent intent = new Intent(this, NFC_Receiver.class);
+            startActivity(intent);
+        });
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
@@ -33,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Create
 
         nfcAdapter.setNdefPushMessageCallback(this, this);
     }
-
 
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
